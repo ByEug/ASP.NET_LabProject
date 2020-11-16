@@ -1,0 +1,31 @@
+﻿@model IEnumerable<LabProject.Resources.Models.Shoe>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fitroom</title>
+</head>
+<body>
+    <h3>All</h3>
+    <table>
+        <tr>
+            <td>Model</td>
+            <td>Brand</td>
+            <td>Price</td>
+            <td></td>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.ModelName</td>
+                <td>@item.Brand.BrandName</td>
+                <td>@item.Price</td>
+                <td><a href="~/Home/Buy/@item.Id">Buy</a></td>
+            </tr>
+        }
+    </table>
+</body>
+</html>
