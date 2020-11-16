@@ -24,7 +24,10 @@ namespace LabProject.Resources.Controllers
             products.AddRange(_context.Shoes.ToList());
             products.AddRange(_context.WearProducts.ToList());
             return View(products);*/
-            return View(_context.Shoes.Include(current => current.Brand).ToList());
+            return View(_context.Shoes
+                .Include(current => current.Brand)
+                .Include(current => current.UseWay)
+                .ToList());
         }
     }
 }

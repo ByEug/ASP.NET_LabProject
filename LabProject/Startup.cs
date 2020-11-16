@@ -53,6 +53,9 @@ namespace LabProject
                     await context.Response.WriteAsync("Hello World!");
                 });
             });*/
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>

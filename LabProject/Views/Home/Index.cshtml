@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<LabProject.Resources.Models.Shoe>
 @{
-    Layout = null;
+    ViewData["Title"] = "Home page";
+    Layout = "_Layout";
 }
 <!DOCTYPE html>
 
@@ -10,10 +11,11 @@
 </head>
 <body>
     <h3>All</h3>
-    <table>
+    <table class="table_condensed">
         <tr>
             <td>Model</td>
             <td>Brand</td>
+            <td>Recommended use</td>
             <td>Price</td>
             <td></td>
         </tr>
@@ -22,6 +24,7 @@
             <tr>
                 <td>@item.ModelName</td>
                 <td>@item.Brand.BrandName</td>
+                <td>@item.UseWay.WayName</td>
                 <td>@item.Price</td>
                 <td><a href="~/Home/Buy/@item.Id">Buy</a></td>
             </tr>
