@@ -11,6 +11,7 @@
 </head>
 <body>
     <h3>All</h3>
+    <!--
     <table class="table_condensed">
         <tr>
             <td>Model</td>
@@ -30,5 +31,20 @@
             </tr>
         }
     </table>
+        -->
+
+    @foreach (var item in Model)
+    {
+        <div class="product-item">
+            <img src=@item.ImageUrl>
+            <div class="product-list">
+                <h3>@item.Brand.BrandName @item.ModelName</h3>
+                <span class="price">@item.Price BYN</span>
+                <a href="" class="button">Buy</a>
+            </div>
+        </div>
+    }
+
+
 </body>
 </html>
