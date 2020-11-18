@@ -29,5 +29,17 @@ namespace LabProject.Resources.Controllers
                 .Include(current => current.UseWay)
                 .ToList());
         }
+
+        [HttpGet]
+        public IActionResult Show(int? id)
+        {
+            if (id == null) return RedirectToAction("Index");
+            ViewBag.itemId = id;
+            var product = _context.Shoes
+                .Include(current => current.Brand)
+                .Include(current => current.UseWay)
+                .Single(current => current.Id == id);
+            return View(product);
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<LabProject.Resources.Models.Shoe>
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Fitroom";
     Layout = "_Layout";
 }
 <!DOCTYPE html>
@@ -11,36 +11,15 @@
 </head>
 <body>
     <h3>All</h3>
-    <!--
-    <table class="table_condensed">
-        <tr>
-            <td>Model</td>
-            <td>Brand</td>
-            <td>Recommended use</td>
-            <td>Price</td>
-            <td></td>
-        </tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@item.ModelName</td>
-                <td>@item.Brand.BrandName</td>
-                <td>@item.UseWay.WayName</td>
-                <td>@item.Price</td>
-                <td><a href="~/Home/Buy/@item.Id">Buy</a></td>
-            </tr>
-        }
-    </table>
-        -->
 
     @foreach (var item in Model)
     {
         <div class="product-item">
             <img src=@item.ImageUrl>
             <div class="product-list">
-                <h3>@item.Brand.BrandName @item.ModelName</h3>
+                <h4>@item.Brand.BrandName @item.ModelName</h4>
                 <span class="price">@item.Price BYN</span>
-                <a href="" class="button">Buy</a>
+                <a href="~/Home/Show/@item.Id" class="button">Show</a>
             </div>
         </div>
     }

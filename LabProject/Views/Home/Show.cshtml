@@ -1,0 +1,34 @@
+﻿@model LabProject.Resources.Models.Shoe
+@{
+    ViewData["Title"] = "Fitroom";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fitroom</title>
+</head>
+<body>
+    <div class="one_product">
+        <img src=@Model.ImageUrl>
+        <h4>@Model.Brand.BrandName @Model.ModelName</h4>
+        <i>@Model.Discription</i>
+
+        <p>Recommended use: @Model.UseWay.WayName</p>
+        <p>Price: @Model.Price BYN</p>
+        <p>Choose size:</p>
+        <p><input name="size" type="radio"> 38: @Model.Amount38 pcs.</p>
+        <p><input name="size" type="radio"> 39: @Model.Amount39 pcs.</p>
+        <p><input name="size" type="radio"> 40: @Model.Amount40 pcs.</p>
+        <p><input name="size" type="radio"> 41: @Model.Amount41 pcs.</p>
+        <p><input name="size" type="radio"> 42: @Model.Amount42 pcs.</p>
+        <p><input name="size" type="radio"> 43: @Model.Amount43 pcs.</p>
+        <p><input name="size" type="radio"> 44: @Model.Amount44 pcs.</p>
+        <p><input name="size" type="radio"> 45: @Model.Amount45 pcs.</p>
+
+        <a href="" class="button">Buy</a>
+    </div>
+    </body>
+    </html>
