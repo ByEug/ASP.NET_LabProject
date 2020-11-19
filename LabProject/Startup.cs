@@ -36,7 +36,8 @@ namespace LabProject
                 );
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<UserDataContext>();
+                .AddEntityFrameworkStores<UserDataContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc();
         }
