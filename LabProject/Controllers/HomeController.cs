@@ -1,5 +1,6 @@
 ﻿using LabProject.Models;
 using LabProject.Resources.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,10 +13,12 @@ namespace LabProject.Resources.Controllers
     public class HomeController: Controller
     {
         private readonly DataContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public HomeController(DataContext context)
+        public HomeController(DataContext context, UserManager<User> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public IActionResult Index()
@@ -24,6 +27,10 @@ namespace LabProject.Resources.Controllers
             products.AddRange(_context.Shoes.ToList());
             products.AddRange(_context.WearProducts.ToList());
             return View(products);*/
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Id = _userManager.GetUserId(User);
+            }
             return View(_context.Shoes
                 .Include(current => current.Brand)
                 .Include(current => current.UseWay)

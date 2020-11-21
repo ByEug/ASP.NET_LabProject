@@ -39,6 +39,8 @@ namespace LabProject
                 .AddEntityFrameworkStores<UserDataContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddSignalR();
+
             services.AddMvc();
         }
 
@@ -58,6 +60,8 @@ namespace LabProject
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+                //endpoints.MapHub<CommentsHub>("/Home/Show/{id?}");
             });
         }
     }

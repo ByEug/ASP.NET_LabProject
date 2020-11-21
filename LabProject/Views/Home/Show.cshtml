@@ -30,5 +30,51 @@
 
         <a href="" class="button">Buy</a>
     </div>
-    </body>
-    </html>
+    <!--
+    <br/>
+    <div>
+        <h4>Comments</h4>
+        <div id="inputForm">
+            <input type="text" id="message" />
+            <input type="button" id="sendBtn" value="Send" />
+        </div>
+        <div id="chatroom"></div>
+        <script src=""></script>
+        <script>
+            const hubConnection = new signalR.HubConnectionBuilder()
+                .withUrl("/Home/Show/{id?}")
+                .build();
+
+            let userName = '';
+            // получение сообщения от сервера
+            hubConnection.on('Send', function (message, userName) {
+
+                // создаем элемент <b> для имени пользователя
+                let userNameElem = document.createElement("b");
+                userNameElem.appendChild(document.createTextNode(userName + ': '));
+
+                // создает элемент <p> для сообщения пользователя
+                let elem = document.createElement("p");
+                elem.appendChild(userNameElem);
+                elem.appendChild(document.createTextNode(message));
+
+                var firstElem = document.getElementById("chatroom").firstChild;
+                document.getElementById("chatroom").insertAfter(elem, firstElem);
+
+            });
+
+            // отправка сообщения на сервер
+            document.getElementById("sendBtn").addEventListener("click", function (e) {
+                let message = document.getElementById("message").value;
+                hubConnection.invoke("Send", message);
+            });
+
+            hubConnection.start();
+
+        </script>
+
+    </div>
+        -->
+
+</body>
+</html>
