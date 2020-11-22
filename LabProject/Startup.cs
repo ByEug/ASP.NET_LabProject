@@ -57,11 +57,11 @@ namespace LabProject
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<RolesHub>("/RolesHub");
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-                //endpoints.MapHub<CommentsHub>("/Home/Show/{id?}");
             });
         }
     }

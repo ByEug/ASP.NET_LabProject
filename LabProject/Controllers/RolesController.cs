@@ -2,6 +2,7 @@
 using LabProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace LabProject.Controllers
     {
         RoleManager<IdentityRole> _roleManager;
         UserManager<User> _userManager;
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager)
+        IHubContext<RolesHub> _hubContext;
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IHubContext<RolesHub> hubContext)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _hubContext = hubContext;
         }
 
         public IActionResult Index() => View(_roleManager.Roles.ToList());
@@ -31,6 +34,7 @@ namespace LabProject.Controllers
                 IdentityResult result = await _roleManager.CreateAsync(new IdentityRole(name));
                 if (result.Succeeded)
                 {
+                    await _hubContext.Clients.All.SendAsync("ShowMessageCreate", " role was created successfully");
                     return RedirectToAction("Index");
                 }
                 else
@@ -52,6 +56,7 @@ namespace LabProject.Controllers
             {
                 IdentityResult result = await _roleManager.DeleteAsync(role);
             }
+            await _hubContext.Clients.All.SendAsync("ShowMessage", "Role was deleted successfully");
             return RedirectToAction("Index");
         }
 
@@ -59,11 +64,11 @@ namespace LabProject.Controllers
 
         public async Task<IActionResult> Edit(string userId)
         {
-            // получаем пользователя
+            
             User user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
+                
                 var userRoles = await _userManager.GetRolesAsync(user);
                 var allRoles = _roleManager.Roles.ToList();
                 ChangeRoleViewModel model = new ChangeRoleViewModel
@@ -82,17 +87,17 @@ namespace LabProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(string userId, List<string> roles)
         {
-            // получаем пользователя
+            
             User user = await _userManager.FindByIdAsync(userId);
             if (user != null)
             {
-                // получем список ролей пользователя
+                
                 var userRoles = await _userManager.GetRolesAsync(user);
-                // получаем все роли
+                
                 var allRoles = _roleManager.Roles.ToList();
-                // получаем список ролей, которые были добавлены
+                
                 var addedRoles = roles.Except(userRoles);
-                // получаем роли, которые были удалены
+                
                 var removedRoles = userRoles.Except(roles);
 
                 await _userManager.AddToRolesAsync(user, addedRoles);

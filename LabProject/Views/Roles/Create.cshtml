@@ -5,7 +5,26 @@
 <form asp-action="Create" method="post">
     <div class="form-group">
         <label for="name">New role</label>
-        <input name="name" class="form-control" />
+        <input id="inputNewRole" name="name" class="form-control" />
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
+
+<div id="status"></div>
+
+<script src="js/signalr/dist/browser/signalr.min.js"></script>
+<script>
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/RolesHub")
+        .build();
+
+    hubConnection.on('ShowMessageCreate', function (message) {
+
+        let elem = document.createElement("p");
+        elem.appendChild(document.createTextNode(document.getElementById("inputNewRole").innerText + message));
+        document.getElementById("status").appendChild(elem);
+        document.getElementById("inputNewRole").innerText = "";
+    });
+
+    hubConnection.start();
+</script>

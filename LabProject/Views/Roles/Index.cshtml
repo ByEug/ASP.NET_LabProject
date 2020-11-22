@@ -5,10 +5,10 @@
     @foreach (var role in Model)
     {
         <tr>
-            <td>@role.Name</td>
+            <td id="roleName">@role.Name</td>
             <td>
                 <form asp-action="Delete" asp-route-id="@role.Id" method="post">
-                    <button type="submit" class="btn btn-sm btn-danger">
+                    <button id="deleteBtn" type="submit" class="btn btn-sm btn-danger">
                         Delete
                     </button>
                 </form>
@@ -16,5 +16,23 @@
         </tr>
     }
 </table>
+
+<div id="status"></div>
+
+<script src="js/signalr/dist/browser/signalr.min.js"></script>
+<script>
+    const hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/RolesHub")
+        .build();
+
+    hubConnection.on('ShowMessage', function (message) {
+        let elem = document.createElement("p");
+        elem.appendChild(document.createTextNode(message));
+        document.getElementById("status").appendChild(elem);
+    });
+
+    hubConnection.start();
+</script>
+
 <a asp-action="Create">Add role</a>
 <a asp-action="UserList">All users</a>
