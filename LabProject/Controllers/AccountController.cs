@@ -14,11 +14,13 @@ namespace LabProject.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly EmailService _emailService;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _emailService = emailService;
         }
 
         [HttpGet]
@@ -43,8 +45,8 @@ namespace LabProject.Controllers
                         "Account",
                         new { userId = user.Id, code = code },
                         protocol: HttpContext.Request.Scheme);
-                    EmailService emailService = new EmailService();
-                    await emailService.SendEmailAsync(model.Email, "Confirm your account",
+                    //EmailService emailService = new EmailService();
+                    await _emailService.SendEmailAsync(model.Email, "Confirm your account",
                         $"Confirm your email address: <a href='{callbackUrl}'>link</a>");
 
                     return Content("Follow the link from email message to finish your registration.");

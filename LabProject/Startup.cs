@@ -39,6 +39,8 @@ namespace LabProject
                 .AddEntityFrameworkStores<UserDataContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddSingleton<EmailService>();
+
             services.AddSignalR();
 
             services.AddMvc();
