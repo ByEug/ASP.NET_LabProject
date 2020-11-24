@@ -339,4 +339,4 @@ ASALocalRun/
 # BeatPulse healthcheck temp database
 healthchecksdb
 
-LabProject/EmailService.cs
+/LabProject/EmailService.cs
