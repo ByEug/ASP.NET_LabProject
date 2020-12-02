@@ -1,0 +1,35 @@
+﻿.mail {
+    font-size: smaller;
+    margin-right: 10px;
+    float: left;
+}
+
+.user_corner {
+    
+}
+
+.user_item {
+    width: 30px;
+    height: 30px;
+}
+
+.cart_item {
+    width: 30px;
+    height: 30px;
+}
+
+.login_item {
+    margin-right: 15px;
+}
+
+.user_form {
+    float: left;
+}
+
+.cart_form {
+    float: left;
+}
+
+div.editing {
+    margin-right: 200px;
+}

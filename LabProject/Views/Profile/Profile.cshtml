@@ -1,0 +1,20 @@
+﻿@model LabProject.Models.User
+<head>
+    <link rel="stylesheet" href="~/css/buttonStyles.css" />
+</head>
+
+<body>
+    <h3>@Model.UserName</h3>
+    <br/>
+    <p>Id: @Model.Id</p>
+    <p>Year of birth: @Model.Year</p>
+    <br/>
+    <div>
+        <a class="editing">Edit</a>
+        <a asp-controller="Users" asp-action="ChangePassword" asp-route-id="@ViewBag.Id" class="editing">Change password</a>
+        <a method="post" asp-action="Logout" class="editing">Log out</a>
+    </div>
+    
+</body>
+
+

@@ -10,6 +10,7 @@
     <title>Fitroom</title>
 </head>
 <body>
+    
     @if (User.Identity.IsAuthenticated)
     {
         <p>@User.Identity.Name</p>
@@ -27,6 +28,7 @@
         <a asp-controller="Account" asp-action="Login">Log in</a>
         <a asp-controller="Account" asp-action="Register">Sign up</a>
     }
+    
     <br />
     <h3>All</h3>
 

@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/buttonStyles.css"/>
 </head>
 <body>
-    <!--меню-->
+
     <nav class="navbar navbar-inverse">
         <div class="container">
             <div>
@@ -15,9 +16,33 @@
                     <li><a href="~/Home/Index" class="navbar-brand">Fitroom</a></li>
                 </ul>
             </div>
+            <a>Sneakers</a>
+            <a>Clothes</a>
+            <a>About</a>
         </div>
+        
+        <div class="user_corner">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="mail">@User.Identity.Name</a>
+                <form class="user_form" asp-controller="Profile" asp-action="Profile" asp-route-name="@User.Identity.Name">
+                    <input class="user_item" type="image" src="~/user.png" />
+                </form>
+                <form class="cart_form">
+                    <input class="cart_item" type="image" src="~/shopping_cart.ico" />
+                </form>
+                
+            }
+            else
+            {
+                <a class="login_item" asp-controller="Account" asp-action="Login">Log in</a>
+                <a asp-controller="Account" asp-action="Register">Sign up</a>
+
+            }
+        </div>
+        
     </nav>
-    <!--основной контент-->
+
     <div class="container body-content">
         @RenderBody()
         <hr />
