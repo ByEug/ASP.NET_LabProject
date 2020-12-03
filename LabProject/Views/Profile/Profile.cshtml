@@ -5,16 +5,30 @@
 
 <body>
     <h3>@Model.UserName</h3>
-    <br/>
+    <br />
     <p>Id: @Model.Id</p>
     <p>Year of birth: @Model.Year</p>
-    <br/>
+    <br />
     <div>
-        <a class="editing">Edit</a>
-        <a asp-controller="Users" asp-action="ChangePassword" asp-route-id="@ViewBag.Id" class="editing">Change password</a>
-        <a method="post" asp-action="Logout" class="editing">Log out</a>
+        <form method="get" class="editing" asp-action="Edit" asp-route-id="@Model.Id">
+            <input type="submit" value="Edit" />
+        </form>
+        <form class="editing" asp-controller="Account" asp-action="ChangePasswordMain" asp-route-id="@Model.Id">
+            <input type="submit" value="Change Password" />
+        </form>
+        <form class="editing" method="post" asp-controller="Account" asp-action="Logout">
+            <input type="submit" value="Log out" />
+        </form>
     </div>
-    
+    @if (ViewBag.management)
+    {
+        <br />
+        <br />
+        <div>
+            <a asp-controller="Users" asp-action="Index" class="managing">Manage Users</a>
+            <a asp-controller="Roles" asp-action="Index" class="managing">Manage Roles</a>
+        </div>
+    }
 </body>
 
 

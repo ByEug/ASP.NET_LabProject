@@ -20,7 +20,7 @@
             <a>Clothes</a>
             <a>About</a>
         </div>
-        
+
         <div class="user_corner">
             @if (User.Identity.IsAuthenticated)
             {
@@ -31,7 +31,7 @@
                 <form class="cart_form">
                     <input class="cart_item" type="image" src="~/shopping_cart.ico" />
                 </form>
-                
+
             }
             else
             {
@@ -40,15 +40,19 @@
 
             }
         </div>
-        
+
     </nav>
 
     <div class="container body-content">
-        @RenderBody()
+        <div class="content-div">
+            @RenderBody()
+        </div>
         <hr />
+
         <footer>
             <p>© 2020 - Fitroom</p>
         </footer>
     </div>
+
 </body>
 </html>
