@@ -13,14 +13,39 @@
 <body>
     
     <br />
-    <h3>All</h3>
+    
+    <form class="filter-form">
+        <div style="display:inline-block">
+            <a>Brand: </a>
+            <select>
+                <option>-</option>
+                @foreach (var item in ViewBag.Brands)
+                {
+                    <option>@item.BrandName</option>
+                }
+            </select>
+            
+            <a>Name: </a>
+            <input type="text" />
+            
+            <a>Use way: </a>
+            <select>
+                <option>-</option>
+                @foreach (var item in ViewBag.UseWays)
+                {
+                    <option>@item.WayName</option>
+                }
+            </select>
 
-    <select>
-        <option>adidas</option>
-        <option>nike</option>
-        <option>-</option>
-    </select>
+            <a>Min price: </a>
+            <input type="number" class="min-price" />
 
+            <a>Max price: </a>
+            <input type="number" class="max-price" />
+            <input type="submit" value="Search" />
+        </div>
+    </form>
+    
     @foreach (var item in Model)
     {
         <div class="product-item">

@@ -31,10 +31,11 @@ namespace LabProject.Resources.Controllers
             {
                 ViewBag.Id = _userManager.GetUserId(User);
             }
-            return View(_context.Shoes
-                .Include(current => current.Brand)
-                .Include(current => current.UseWay)
-                .ToList());
+            ViewBag.Brands = _context.Brands.ToList();
+            ViewBag.UseWays = _context.UseWays.ToList();
+            IEnumerable<BaseProduct> products = _context.Shoes.Include(current => current.Brand).Include(current => current.UseWay).ToList();
+            products.Concat(_context.WearProducts.Include(current => current.Brand).Include(current => current.UseWay).Cast<BaseProduct>().ToArray());
+            return View(products);
         }
 
         [HttpGet]
