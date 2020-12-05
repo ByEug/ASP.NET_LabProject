@@ -3,6 +3,7 @@ using LabProject.Resources.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,11 +15,13 @@ namespace LabProject.Resources.Controllers
     {
         private readonly DataContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly CustomLogger _logger;
 
-        public HomeController(DataContext context, UserManager<User> userManager)
+        public HomeController(DataContext context, UserManager<User> userManager, CustomLogger customLogger)
         {
             _context = context;
             _userManager = userManager;
+            _logger = customLogger;
         }
 
         public IActionResult Index()
@@ -35,6 +38,7 @@ namespace LabProject.Resources.Controllers
             ViewBag.UseWays = _context.UseWays.ToList();
             IEnumerable<BaseProduct> products = _context.Shoes.Include(current => current.Brand).Include(current => current.UseWay).ToList();
             products.Concat(_context.WearProducts.Include(current => current.Brand).Include(current => current.UseWay).Cast<BaseProduct>().ToArray());
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View(products);
         }
 
@@ -47,6 +51,7 @@ namespace LabProject.Resources.Controllers
                 .Include(current => current.Brand)
                 .Include(current => current.UseWay)
                 .Single(current => current.Id == id);
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View(product);
         }
     }

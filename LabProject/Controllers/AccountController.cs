@@ -7,6 +7,7 @@ using LabProject.Models;
 using LabProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace LabProject.Controllers
 {
@@ -15,17 +16,20 @@ namespace LabProject.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly EmailService _emailService;
+        private readonly CustomLogger _logger;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService, CustomLogger logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
+            _logger = logger;
         }
 
         [HttpGet]
         public IActionResult Register()
         {
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View();
         }
 
@@ -49,12 +53,14 @@ namespace LabProject.Controllers
                     await _emailService.SendEmailAsync(model.Email, "Confirm your account",
                         $"Confirm your email address: <a href='{callbackUrl}'>link</a>");
 
+                    _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     return Content("Follow the link from email message to finish your registration.");
                     //await _signInManager.SignInAsync(user, false);
                     //return RedirectToAction("Index", "Home");
                 }
                 else
                 {
+                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
@@ -87,6 +93,7 @@ namespace LabProject.Controllers
         [HttpGet]
         public IActionResult Login(string returnUrl = null)
         {
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View(new LoginViewModel { ReturnUrl = returnUrl });
         }
 
@@ -114,15 +121,18 @@ namespace LabProject.Controllers
 
                     if (!string.IsNullOrEmpty(model.ReturnUrl) && Url.IsLocalUrl(model.ReturnUrl))
                     {
+                        _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                         return Redirect(model.ReturnUrl);
                     }
                     else
                     {
+                        _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                         return RedirectToAction("Index", "Home");
                     }
                 }
                 else
                 {
+                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     ModelState.AddModelError("", "Incorrect login or password");
                 }
             }
@@ -134,6 +144,8 @@ namespace LabProject.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return RedirectToAction("Index", "Home");
         }
 
@@ -161,10 +173,12 @@ namespace LabProject.Controllers
                         await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
                     if (result.Succeeded)
                     {
+                        _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                         return RedirectToAction("Login");
                     }
                     else
                     {
+                        _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                         foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
@@ -173,6 +187,7 @@ namespace LabProject.Controllers
                 }
                 else
                 {
+                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     ModelState.AddModelError(string.Empty, "User did not found");
                 }
             }

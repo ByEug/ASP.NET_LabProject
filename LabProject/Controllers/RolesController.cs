@@ -3,6 +3,7 @@ using LabProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,28 @@ namespace LabProject.Controllers
         RoleManager<IdentityRole> _roleManager;
         UserManager<User> _userManager;
         IHubContext<RolesHub> _hubContext;
-        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager, IHubContext<RolesHub> hubContext)
+        private readonly CustomLogger _logger;
+        public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager,
+            IHubContext<RolesHub> hubContext, CustomLogger logger)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _hubContext = hubContext;
+            _logger = logger;
         }
 
-        public IActionResult Index() => View(_roleManager.Roles.ToList());
+        public IActionResult Index() {
 
-        public IActionResult Create() => View();
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+            return View(_roleManager.Roles.ToList());
+        }
+
+        public IActionResult Create() {
+
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+            return View();
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Create(string name)
@@ -35,10 +48,13 @@ namespace LabProject.Controllers
                 if (result.Succeeded)
                 {
                     await _hubContext.Clients.All.SendAsync("ShowMessageCreate", " role was created successfully");
+
+                    _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     return RedirectToAction("Index");
                 }
                 else
                 {
+                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError(string.Empty, error.Description);
@@ -57,10 +73,16 @@ namespace LabProject.Controllers
                 IdentityResult result = await _roleManager.DeleteAsync(role);
             }
             await _hubContext.Clients.All.SendAsync("ShowMessage", "Role was deleted successfully");
+
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return RedirectToAction("Index");
         }
 
-        public IActionResult UserList() => View(_userManager.Users.ToList());
+        public IActionResult UserList() {
+
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+            return View(_userManager.Users.ToList());
+        }
 
         public async Task<IActionResult> Edit(string userId)
         {
@@ -81,6 +103,7 @@ namespace LabProject.Controllers
                 return View(model);
             }
 
+            _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return NotFound();
         }
 
@@ -104,9 +127,11 @@ namespace LabProject.Controllers
 
                 await _userManager.RemoveFromRolesAsync(user, removedRoles);
 
+                _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                 return RedirectToAction("UserList");
             }
 
+            _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return NotFound();
         }
     }

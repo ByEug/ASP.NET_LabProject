@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace LabProject
 {
@@ -39,7 +41,8 @@ namespace LabProject
                 .AddEntityFrameworkStores<UserDataContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddSingleton<EmailService>();
+            services.AddScoped<EmailService>();
+            services.AddSingleton<CustomLogger>();
 
             services.AddSignalR();
 

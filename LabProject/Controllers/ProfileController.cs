@@ -2,6 +2,7 @@
 using LabProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,15 @@ namespace LabProject.Controllers
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly CustomLogger _logger;
 
-        public ProfileController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
+        public ProfileController(UserManager<User> userManager, SignInManager<User> signInManager, 
+            RoleManager<IdentityRole> roleManager, CustomLogger logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Profile(string name)
@@ -32,6 +36,8 @@ namespace LabProject.Controllers
                 management = true;
             }
             ViewBag.management = management;
+
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View(user);
         }
 
@@ -43,6 +49,8 @@ namespace LabProject.Controllers
                 return NotFound();
             }
             EditUserViewModel model = new EditUserViewModel { Id = user.Id, Email = user.Email, Year = user.Year };
+
+            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View(model);
         }
 
@@ -61,10 +69,12 @@ namespace LabProject.Controllers
                     var result = await _userManager.UpdateAsync(user);
                     if (result.Succeeded)
                     {
+                        _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                         return RedirectToAction("Profile", new { name = user.UserName });
                     }
                     else
                     {
+                        _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                         foreach (var error in result.Errors)
                         {
                             ModelState.AddModelError(string.Empty, error.Description);
