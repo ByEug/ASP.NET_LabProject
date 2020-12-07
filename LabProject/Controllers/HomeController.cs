@@ -42,6 +42,12 @@ namespace LabProject.Resources.Controllers
             return View(products);
         }
 
+        public IActionResult Error(string code)
+        {
+            ViewBag.errorNum = code;
+            return View();
+        }
+
         [HttpGet]
         public IActionResult Show(int? id)
         {
