@@ -12,8 +12,6 @@
 </head>
 <body>
     
-    <br />
-    
     <form class="filter-form">
         <div style="display:inline-block">
             <a>Brand: </a>
@@ -38,10 +36,10 @@
             </select>
 
             <a>Min price: </a>
-            <input type="number" class="min-price" />
+            <input type="number" class="min-price" min="1" max="1000"/>
 
             <a>Max price: </a>
-            <input type="number" class="max-price" />
+            <input type="number" class="max-price" min="1" max="1000"/>
             <input type="submit" value="Search" />
         </div>
     </form>
@@ -58,6 +56,11 @@
         </div>
     }
 
+    
+    <div style="clear:both;">
+    </div>
+    
+    <hr />
 
 </body>
 </html>
