@@ -14,5 +14,6 @@ namespace LabProject.Models
         {
             //Database.EnsureCreated();
         }
+
     }
 }

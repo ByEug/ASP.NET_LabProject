@@ -45,13 +45,6 @@ namespace LabProject.Resources.Controllers
         [HttpPost]
         public IActionResult Search(SearchItemViewModel viewModel)
         {
-            /*if(viewModel.ProductName != "")
-            {
-                List<Shoe> list = new List<Shoe>();
-                list.Add(_context.Shoes.Include(current => current.Brand).Include(current => current.UseWay)
-                    .Where(o => o.ModelName == viewModel.ProductName).FirstOrDefault());
-                ViewBag.Shoes = list;
-            }*/
 
             List<Shoe> list = new List<Shoe>();
             list.AddRange(_context.Shoes.Include(current => current.Brand).Include(current => current.UseWay)
@@ -84,12 +77,37 @@ namespace LabProject.Resources.Controllers
             }
             ViewBag.Brands = _context.Brands.ToList();
             ViewBag.UseWays = _context.UseWays.ToList();
+            ViewBag.WearProducts = _context.WearProducts.Include(current => current.Brand).Include(current => current.UseWay).ToList();
+
+            SearchItemViewModel viewModel = new SearchItemViewModel();
 
             _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
-            return View(_context.WearProducts
-                .Include(current => current.Brand)
-                .Include(current => current.UseWay)
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult SearchClothes(SearchItemViewModel viewModel)
+        {
+
+            List<WearProduct> list = new List<WearProduct>();
+            list.AddRange(_context.WearProducts.Include(current => current.Brand).Include(current => current.UseWay)
+                .Where(o => (o.Brand.BrandName == viewModel.BrandName || viewModel.BrandName == "-") &&
+                (o.UseWay.WayName == viewModel.UseWayName || viewModel.UseWayName == "-") &&
+                (EF.Functions.Like(o.ModelName, $"%{viewModel.ProductName}%") || viewModel.ProductName == "") &&
+                (o.Price >= viewModel.MinPrice && o.Price <= viewModel.MaxPrice))
                 .ToList());
+
+            ViewBag.WearProducts = list;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.Id = _userManager.GetUserId(User);
+            }
+            ViewBag.Brands = _context.Brands.ToList();
+            ViewBag.UseWays = _context.UseWays.ToList();
+
+            return View("Clothes");
+
         }
 
         public IActionResult Error(string code)

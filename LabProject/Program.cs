@@ -36,6 +36,10 @@ namespace LabProject
                 {
                     var context = services.GetRequiredService<DataContext>();
                     DbData.Initialize(context);
+                    /*var cart_context = services.GetRequiredService<CartContext>();
+                    var user_context = services.GetRequiredService<UserDataContext>();
+                    DbData.InitCart(cart_context, user_context);*/
+
                 }
                 catch (Exception ex)
                 {

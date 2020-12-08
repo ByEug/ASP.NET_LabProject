@@ -9,5 +9,6 @@ namespace LabProject.Models
     public class User : IdentityUser
     {
         public int Year { get; set; }
+        public Cart Cart { get; set; }
     }
 }

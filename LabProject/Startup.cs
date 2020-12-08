@@ -33,6 +33,10 @@ namespace LabProject
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 );
 
+            services.AddDbContextPool<CartContext>(
+                options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
+                );
+
             services.AddDbContext<UserDataContext>(
                 options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 );

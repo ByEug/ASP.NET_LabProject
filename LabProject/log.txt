@@ -279,3 +279,6 @@ Processing request /Profile/Profile at 03:43:53
 Processing request /Home/Clothes at 03:43:56
 Processing request /Home/Index at 03:43:57
 Processing request /Home/Index at 03:44:27
+Processing request / at 10:05:32
+Processing request /Home/Show/3 at 10:05:53
+Processing request /Home/Index at 10:05:56
