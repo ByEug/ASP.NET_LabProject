@@ -20,16 +20,29 @@
         <p>Recommended use: @Model.UseWay.WayName</p>
         <p>Price: @Model.Price BYN</p>
         <p>Choose size:</p>
-        <p><input name="size" type="radio"> 38: @Model.Amount38 pcs.</p>
-        <p><input name="size" type="radio"> 39: @Model.Amount39 pcs.</p>
-        <p><input name="size" type="radio"> 40: @Model.Amount40 pcs.</p>
-        <p><input name="size" type="radio"> 41: @Model.Amount41 pcs.</p>
-        <p><input name="size" type="radio"> 42: @Model.Amount42 pcs.</p>
-        <p><input name="size" type="radio"> 43: @Model.Amount43 pcs.</p>
-        <p><input name="size" type="radio"> 44: @Model.Amount44 pcs.</p>
-        <p><input name="size" type="radio"> 45: @Model.Amount45 pcs.</p>
+        <form asp-action="BuyShoe" asp-controller="Cart" asp-route-shoeid="@Model.Id">
 
-        <a href="" class="button">Buy</a>
+            <input name="size" type="radio" value="38"/>
+            <span>38: @Model.Amount38 pcs.</span> <br />
+            <input name="size" type="radio" value="39"/>
+            <span>39: @Model.Amount39 pcs.</span> <br />
+            <input name="size" type="radio" value="40"/>
+            <span>40: @Model.Amount40 pcs.</span> <br />
+            <input name="size" type="radio" value="41"/>
+            <span>41: @Model.Amount41 pcs.</span> <br />
+            <input name="size" type="radio" value="42"/>
+            <span>42: @Model.Amount42 pcs.</span> <br />
+            <input name="size" type="radio" value="43"/>
+            <span>43: @Model.Amount43 pcs.</span> <br />
+            <input name="size" type="radio" value="44"/>
+            <span>44: @Model.Amount44 pcs.</span> <br />
+            <input name="size" type="radio" value="45"/>
+            <span>45: @Model.Amount45 pcs.</span> <br />
+
+            <p>
+                <input type="submit" value="Buy" />
+            </p>
+        </form>
     </div>
     
 </body>

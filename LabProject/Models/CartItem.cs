@@ -9,6 +9,7 @@ namespace LabProject.Models
     public class CartItem
     {
         public int Id { get; set; }
+        public int IdInBase { get; set; }
         public string Brand { get; set; }
         public string ItemName { get; set; }
         public int Price { get; set; }
