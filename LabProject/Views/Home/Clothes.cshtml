@@ -1,4 +1,4 @@
-﻿@model LabProject.ViewModels.SearchItemViewModel
+﻿@model IEnumerable<LabProject.Resources.Models.WearProduct>
 @{
     ViewData["Title"] = "Fitroom";
     Layout = "_Layout";
@@ -12,10 +12,10 @@
 </head>
 <body>
 
-    <form asp-action="Search" asp-controller="Home" class="filter-form">
+    <form class="filter-form">
         <div style="display:inline-block">
             <a>Brand: </a>
-            <select asp-for="BrandName">
+            <select>
                 <option>-</option>
                 @foreach (var item in ViewBag.Brands)
                 {
@@ -24,10 +24,10 @@
             </select>
 
             <a>Name: </a>
-            <input type="text" asp-for="ProductName" />
+            <input type="text" />
 
             <a>Use way: </a>
-            <select asp-for="UseWayName">
+            <select>
                 <option>-</option>
                 @foreach (var item in ViewBag.UseWays)
                 {
@@ -36,28 +36,26 @@
             </select>
 
             <a>Min price: </a>
-            <input type="number" asp-for="MinPrice" class="min-price" min="1" max="1000" />
+            <input type="number" class="min-price" min="1" max="1000" />
 
             <a>Max price: </a>
-            <input type="number" asp-for="MaxPrice" class="max-price" min="1" max="1000" />
+            <input type="number" class="max-price" min="1" max="1000" />
             <input type="submit" value="Search" />
         </div>
     </form>
 
-    @if (ViewBag.Shoes.Count != 0)
+    @foreach (var item in Model)
     {
-        foreach (var item in ViewBag.Shoes)
-        {
-            <div class="product-item">
-                <img src=@item.ImageUrl>
-                <div class="product-list">
-                    <h4>@item.Brand.BrandName @item.ModelName</h4>
-                    <span class="price">@item.Price BYN</span>
-                    <a href="~/Home/Show/@item.Id" class="button">Show</a>
-                </div>
+        <div class="product-item">
+            <img src=@item.ImageUrl>
+            <div class="product-list">
+                <h4>@item.Brand.BrandName @item.ModelName</h4>
+                <span class="price">@item.Price BYN</span>
+                <a href="~/Home/ShowClothes/@item.Id" class="button">Show</a>
             </div>
-        }
+        </div>
     }
+
 
     <div style="clear:both;">
     </div>

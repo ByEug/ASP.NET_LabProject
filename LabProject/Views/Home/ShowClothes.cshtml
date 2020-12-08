@@ -1,0 +1,33 @@
+﻿@model LabProject.Resources.Models.WearProduct
+@{
+    ViewData["Title"] = "Fitroom";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fitroom</title>
+    <link rel="stylesheet" href="~/css/buttonStyles.css" />
+</head>
+<body>
+    <div class="one_product">
+        <img src=@Model.ImageUrl>
+        <h4>@Model.Brand.BrandName @Model.ModelName</h4>
+        <i>@Model.Discription</i>
+
+        <p>Recommended use: @Model.UseWay.WayName</p>
+        <p>Price: @Model.Price BYN</p>
+        <p>Choose size:</p>
+        <p><input name="size" type="radio"> S: @Model.AmountS pcs.</p>
+        <p><input name="size" type="radio"> M: @Model.AmountM pcs.</p>
+        <p><input name="size" type="radio"> L: @Model.AmountL pcs.</p>
+        <p><input name="size" type="radio"> XL: @Model.AmountXL pcs.</p>
+        <p><input name="size" type="radio"> XXL: @Model.AmountXXL pcs.</p>
+
+        <a href="" class="button">Buy</a>
+    </div>
+
+</body>
+</html>
