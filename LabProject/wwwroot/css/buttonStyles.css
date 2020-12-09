@@ -137,3 +137,11 @@ footer {
     display: block;
 }
 
+.cart-table {
+    border: 3px solid grey;
+}
+
+.cart-table p {
+    text-align:center;
+}
+

@@ -15,15 +15,20 @@ namespace LabProject.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly EmailService _emailService;
         private readonly CustomLogger _logger;
+        private readonly CartContext _cartContext;
 
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, EmailService emailService, CustomLogger logger)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, 
+            EmailService emailService, CustomLogger logger, CartContext cartContext, RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _emailService = emailService;
             _logger = logger;
+            _cartContext = cartContext;
+            _roleManager = roleManager;
         }
 
         [HttpGet]
@@ -52,6 +57,17 @@ namespace LabProject.Controllers
                     //EmailService emailService = new EmailService();
                     await _emailService.SendEmailAsync(model.Email, "Confirm your account",
                         $"Confirm your email address: <a href='{callbackUrl}'>link</a>");
+
+                    Cart new_cart = new Cart { UserId = user.Id };
+                    _cartContext.Carts.Add(new_cart);
+                    _cartContext.SaveChanges();
+
+                    var Role = _roleManager.Roles.FirstOrDefault(o => o.Name == "user");
+
+                    if (Role != null)
+                    {
+                        await _userManager.AddToRoleAsync(user, "user");
+                    }
 
                     _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     return Content("Follow the link from email message to finish your registration.");

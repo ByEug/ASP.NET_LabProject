@@ -28,7 +28,7 @@
                 <form class="user_form" asp-controller="Profile" asp-action="Profile" asp-route-name="@User.Identity.Name">
                     <input class="user_item" type="image" src="~/user.png" />
                 </form>
-                <form class="cart_form">
+                <form class="cart_form" asp-controller="Profile" asp-action="Cart">
                     <input class="cart_item" type="image" src="~/shopping_cart.ico" />
                 </form>
 

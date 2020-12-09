@@ -12,22 +12,38 @@ namespace LabProject.Controllers
 {
     public class UsersController : Controller
     {
-        private UserManager<User> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly CustomLogger _logger;
+        private readonly CartContext _cartContext;
 
-        public UsersController(UserManager<User> userManager, CustomLogger logger)
+        public UsersController(UserManager<User> userManager, CustomLogger logger, CartContext cartContext)
         {
             _userManager = userManager;
             _logger = logger;
+            _cartContext = cartContext;
         }
 
-        public IActionResult Index() {
+        public async Task<IActionResult> Index() {
 
-            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
-            return View(_userManager.Users.ToList()); 
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (user != null)
+            {
+                var Roles = await _userManager.GetRolesAsync(user);
+                if (Roles.Contains("admin") || Roles.Contains("moderator"))
+                {
+                    _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+                    return View(_userManager.Users.ToList());
+                }
+                else
+                {
+                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+                    return NotFound();
+                }
+            }
+            _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+            return NotFound();
+
         }
-
-        //public IActionResult Create() => View();
 
         public async Task<IActionResult> Edit(string id)
         {
@@ -81,6 +97,14 @@ namespace LabProject.Controllers
             User user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
+                Cart del_cart = _cartContext.Carts.FirstOrDefault(o => o.UserId == id);
+
+                if (del_cart != null)
+                {
+                    _cartContext.Carts.Remove(del_cart);
+                    _cartContext.SaveChanges();
+                }
+
                 IdentityResult result = await _userManager.DeleteAsync(user);
             }
 

@@ -26,10 +26,25 @@ namespace LabProject.Controllers
             _logger = logger;
         }
 
-        public IActionResult Index() {
+        public async Task<IActionResult> Index() {
 
-            _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
-            return View(_roleManager.Roles.ToList());
+            User user = await _userManager.FindByIdAsync(_userManager.GetUserId(User));
+            if (user != null)
+            {
+                var Roles = await _userManager.GetRolesAsync(user);
+                if (Roles.Contains("admin") || Roles.Contains("moderator"))
+                {
+                    _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+                    return View(_roleManager.Roles.ToList());
+                }
+                else
+                {
+                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+                    return NotFound();
+                }
+            }
+            _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
+            return NotFound();
         }
 
         public IActionResult Create() {

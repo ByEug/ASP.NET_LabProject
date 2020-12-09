@@ -16,14 +16,16 @@ namespace LabProject.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly CustomLogger _logger;
+        private readonly CartContext _cartContext;
 
         public ProfileController(UserManager<User> userManager, SignInManager<User> signInManager, 
-            RoleManager<IdentityRole> roleManager, CustomLogger logger)
+            RoleManager<IdentityRole> roleManager, CustomLogger logger, CartContext cartContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _logger = logger;
+            _cartContext = cartContext;
         }
 
         public async Task<IActionResult> Profile(string name)
@@ -39,6 +41,13 @@ namespace LabProject.Controllers
 
             _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return View(user);
+        }
+
+        public IActionResult Cart()
+        {
+            int CartId = _cartContext.Carts.Single(o => o.UserId == _userManager.GetUserId(User)).Id;
+            List<CartItem> listItem = _cartContext.CartItems.Where(o => o.CartId == CartId).ToList();
+            return View(listItem);
         }
 
         public async Task<IActionResult> Edit(string id)

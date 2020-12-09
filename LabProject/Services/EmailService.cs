@@ -24,7 +24,7 @@ namespace LabProject
             using (var client = new SmtpClient())
             {
                 await client.ConnectAsync("smtp.mail.ru", 25, false);
-                await client.AuthenticateAsync("blacksage00@mail.ru", "");
+                await client.AuthenticateAsync("blacksage00@mail.ru", "Zb_24081973");
                 await client.SendAsync(emailMessage);
 
                 await client.DisconnectAsync(true);

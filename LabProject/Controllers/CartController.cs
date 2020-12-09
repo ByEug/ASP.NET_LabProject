@@ -256,6 +256,111 @@ namespace LabProject.Controllers
 
         }
 
+        public IActionResult BuyAll()
+        {
+            int cartId = _cartContext.Carts.Where(o => o.UserId == _userManager.GetUserId(User)).FirstOrDefault().Id;
+            List<CartItem> list = _cartContext.CartItems.Where(o => o.CartId == cartId).ToList();
+            _cartContext.CartItems.RemoveRange(list);
+            _cartContext.SaveChanges();
+
+            return RedirectToAction("Cart", "Profile");
+        }
+
+        public IActionResult Delete(int? id)
+        {
+            CartItem item = _cartContext.CartItems.Where(o => o.Id == id).FirstOrDefault();
+
+            switch (item.Size)
+            {
+                case "38":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount38 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount38 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "39":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount39 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount39 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "40":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount40 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount40 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "41":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount41 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount41 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "42":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount42 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount42 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "43":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount43 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount43 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "44":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount44 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount44 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "45":
+                    {
+                        _context.Shoes.Single(o => o.Id == item.IdInBase).Amount45 = _context.Shoes.Single(o => o.Id == item.IdInBase).Amount45 + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "S":
+                    {
+                        _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountS = _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountS + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "M":
+                    {
+                        _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountM = _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountM + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "L":
+                    {
+                        _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountL = _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountL + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "XL":
+                    {
+                        _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountXL = _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountXL + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                case "XXL":
+                    {
+                        _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountXXL = _context.WearProducts.Single(o => o.Id == item.IdInBase).AmountXXL + 1;
+                        _context.SaveChanges();
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+
+            _cartContext.CartItems.Remove(item);
+            _cartContext.SaveChanges();
+            return RedirectToAction("Cart", "Profile");
+        }
+
         private void AddToCart(Shoe product, string size)
         {
             CartItem cart_item = new CartItem
@@ -291,5 +396,6 @@ namespace LabProject.Controllers
             _cartContext.CartItems.Add(cart_item);
             _cartContext.SaveChanges();
         }
+
     }
 }
