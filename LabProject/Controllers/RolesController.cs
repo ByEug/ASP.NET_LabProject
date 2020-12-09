@@ -1,4 +1,5 @@
 ﻿using LabProject.Models;
+using LabProject.Services;
 using LabProject.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,17 +14,19 @@ namespace LabProject.Controllers
 {
     public class RolesController : Controller
     {
-        RoleManager<IdentityRole> _roleManager;
-        UserManager<User> _userManager;
-        IHubContext<RolesHub> _hubContext;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IHubContext<RolesHub> _hubContext;
         private readonly CustomLogger _logger;
+        private readonly TimeService _timeService;
         public RolesController(RoleManager<IdentityRole> roleManager, UserManager<User> userManager,
-            IHubContext<RolesHub> hubContext, CustomLogger logger)
+            IHubContext<RolesHub> hubContext, CustomLogger logger, TimeService timeService)
         {
             _roleManager = roleManager;
             _userManager = userManager;
             _hubContext = hubContext;
             _logger = logger;
+            _timeService = timeService;
         }
 
         public async Task<IActionResult> Index() {
@@ -87,7 +90,7 @@ namespace LabProject.Controllers
             {
                 IdentityResult result = await _roleManager.DeleteAsync(role);
             }
-            await _hubContext.Clients.All.SendAsync("ShowMessage", "Role was deleted successfully");
+            await _hubContext.Clients.All.SendAsync("ShowMessage", "Role was deleted successfully at " + _timeService.Time);
 
             _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return RedirectToAction("Index");

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using LabProject.Services;
 
 namespace LabProject
 {
@@ -45,6 +46,7 @@ namespace LabProject
                 .AddEntityFrameworkStores<UserDataContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddTransient<TimeService>();
             services.AddScoped<EmailService>();
             services.AddSingleton<CustomLogger>();
 
