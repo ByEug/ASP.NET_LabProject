@@ -1,0 +1,92 @@
+﻿@model LabProject.ViewModels.AddShoeViewModel
+
+<!DOCTYPE html>
+ 
+<html>
+<head>
+    <title>Fitroom</title>
+    <link rel="stylesheet" href="~/css/buttonStyles.css" />
+</head>
+<body>
+    <h3>New Shoes:</h3>
+
+    <form method="post" asp-controller="Manage" asp-action="AddShoes">
+        <div>
+            <label>Brand: </label><br/>
+            <select asp-for="Brand">
+                @foreach (var item in ViewBag.Brands)
+                {
+                    <option>@item.BrandName</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Name: </label><br />
+            <input type="text" asp-for="ProductName" />
+        </div>
+        <div>
+            <label>ImageUrl: </label><br />
+            <input type="text" asp-for="ImageUrl" />
+        </div>
+        <div>
+            <label>Use way: </label><br />
+            <select asp-for="UseWay">
+                @foreach (var item in ViewBag.UseWays)
+                {
+                    <option>@item.WayName</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Price: </label><br />
+            <input type="number" asp-for="Price" min="1" max="1000" />
+        </div>
+        <div>
+            <label>Description:</label><br />
+            <input type="text" asp-for="Discription" />
+        </div>
+        <div>
+            <label>Sizes:</label><br />
+        </div>
+        <div>
+            <label>38:</label>
+            <input type="number" asp-for="Amount38" min="1" max="15" />
+        </div>
+        <div>
+            <label>39:</label>
+            <input type="number" asp-for="Amount39" min="1" max="15" />
+        </div>
+        <div>
+            <label>40:</label>
+            <input type="number" asp-for="Amount40" min="1" max="15" />
+        </div>
+        <div>
+            <label>41:</label>
+            <input type="number" asp-for="Amount41" min="1" max="15" />
+        </div>
+        <div>
+            <label>42:</label>
+            <input type="number" asp-for="Amount42" min="1" max="15" />
+        </div>
+        <div>
+            <label>43:</label>
+            <input type="number" asp-for="Amount43" min="1" max="15" />
+        </div>
+        <div>
+            <label>44:</label>
+            <input type="number" asp-for="Amount44" min="1" max="15" />
+        </div>
+        <div>
+            <label>45:</label>
+            <input type="number" asp-for="Amount45" min="1" max="15" />
+        </div>
+
+        <div>
+            <br/>
+            <input type="submit" value="Add product" />
+        </div>
+
+    </form>
+
+</body>
+</html>

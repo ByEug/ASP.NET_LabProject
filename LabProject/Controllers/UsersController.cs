@@ -34,11 +34,6 @@ namespace LabProject.Controllers
                     _logger.LogInformation($"Processing request {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
                     return View(_userManager.Users.ToList());
                 }
-                else
-                {
-                    _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
-                    return NotFound();
-                }
             }
             _logger.LogError($"Error in {this.Request.Path} at {DateTime.Now:hh:mm:ss}");
             return NotFound();

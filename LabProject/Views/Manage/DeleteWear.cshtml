@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fitroom</title>
+    <link rel="stylesheet" href="~/css/buttonStyles.css" />
+</head>
+<body>
+
+    <br />
+
+    @if (ViewBag.Message != null)
+    {
+        <p>@ViewBag.Message</p>
+    }
+
+    <br />
+
+    @if (ViewBag.WearProducts.Count != 0)
+    {
+        <table class="table">
+
+            @foreach (var item in ViewBag.WearProducts)
+            {
+                <tr>
+                    <td>
+                        <img src=@item.ImageUrl style="display:block; width:200px" />
+                    </td>
+                    <td>
+                        <p style="font-weight:bold">@item.Brand.BrandName @item.ModelName</p>
+                    </td>
+                    <td>
+                        <p>@item.Price BYN</p>
+                    </td>
+                    <td>
+                        <form asp-action="DeleteCurrentWear" asp-controller="Manage" asp-route-id="@item.Id" asp-route-name="@item.ModelName" method="post">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                Delete from database
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+
+
+</body>
+</html>

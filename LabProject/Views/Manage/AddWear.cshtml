@@ -1,0 +1,80 @@
+﻿@model LabProject.ViewModels.AddWearViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Fitroom</title>
+    <link rel="stylesheet" href="~/css/buttonStyles.css" />
+</head>
+<body>
+    <h3>New Wear:</h3>
+
+    <form method="post" asp-controller="Manage" asp-action="AddWear">
+        <div>
+            <label>Brand: </label><br />
+            <select asp-for="Brand">
+                @foreach (var item in ViewBag.Brands)
+                {
+                    <option>@item.BrandName</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Name: </label><br />
+            <input type="text" asp-for="ProductName" />
+        </div>
+        <div>
+            <label>ImageUrl: </label><br />
+            <input type="text" asp-for="ImageUrl" />
+        </div>
+        <div>
+            <label>Use way: </label><br />
+            <select asp-for="UseWay">
+                @foreach (var item in ViewBag.UseWays)
+                {
+                    <option>@item.WayName</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label>Price: </label><br />
+            <input type="number" asp-for="Price" min="1" max="1000" />
+        </div>
+        <div>
+            <label>Description:</label><br />
+            <input type="text" asp-for="Discription" />
+        </div>
+        <div>
+            <label>Sizes:</label><br />
+        </div>
+        <div>
+            <label>S:</label>
+            <input type="number" asp-for="AmountS" min="1" max="15" />
+        </div>
+        <div>
+            <label>M:</label>
+            <input type="number" asp-for="AmountM" min="1" max="15" />
+        </div>
+        <div>
+            <label>L:</label>
+            <input type="number" asp-for="AmountL" min="1" max="15" />
+        </div>
+        <div>
+            <label>XL:</label>
+            <input type="number" asp-for="AmountXL" min="1" max="15" />
+        </div>
+        <div>
+            <label>XXL:</label>
+            <input type="number" asp-for="AmountXXL" min="1" max="15" />
+        </div>
+
+        <div>
+            <br />
+            <input type="submit" value="Add product" />
+        </div>
+
+    </form>
+
+</body>
+</html>
